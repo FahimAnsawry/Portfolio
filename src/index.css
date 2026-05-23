@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'JetBrains Mono', monospace;
+  --font-display: 'JetBrains Mono', monospace;
+
+  /* Default (dark teal palette) */
+  --color-background: #0E1A1A;
+  --color-background-alt: #0D1717;
+  --color-foreground: #FFFFFF;
+  --color-primary: #3EE6C4;
+  --color-primary-hover: #5BF0D2;
+  --color-primary-foreground: #0D1717;
+  --color-secondary: #1F2C2C;
+  --color-muted: #1F2C2C;
+  --color-muted-foreground: #A8B3B3;
+  --color-border: #1F2C2C;
+  --color-card: #0D1717;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 17px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Pointer cursor on all interactive controls */
+  button:not(:disabled),
+  a[role="button"],
+  [role="button"],
+  label[for],
+  summary,
+  .btn-hire,
+  .btn-resume,
+  .chip-btn,
+  .chip-btn-primary,
+  .modal-close {
+    cursor: pointer;
+  }
+
+  /* Dark theme — mint/teal on near-black */
+  html.dark {
+    --color-background: #0E1A1A;
+    --color-background-alt: #0D1717;
+    --color-foreground: #FFFFFF;
+    --color-primary: #3EE6C4;
+    --color-primary-hover: #5BF0D2;
+    --color-primary-foreground: #0D1717;
+    --color-secondary: #1F2C2C;
+    --color-muted: #1F2C2C;
+    --color-muted-foreground: #A8B3B3;
+    --color-border: #1F2C2C;
+    --color-card: #0D1717;
+  }
+
+  /* Light theme — inverted, mint accent preserved */
+  html.light {
+    --color-background: #F4F7F6;
+    --color-background-alt: #FFFFFF;
+    --color-foreground: #0E1A1A;
+    --color-primary: #14A88B;
+    --color-primary-hover: #0F8C73;
+    --color-primary-foreground: #FFFFFF;
+    --color-secondary: #E6ECEB;
+    --color-muted: #E6ECEB;
+    --color-muted-foreground: #5C6968;
+    --color-border: #D8E0DF;
+    --color-card: #FFFFFF;
+  }
+
+  /* Selection color reflects the mint accent */
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+
+  /* Hire Me — outlined ghost with sweep-fill on hover */
+  .btn-hire {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-primary);
+    transition:
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .btn-hire::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-primary);
+    transform: translateX(-101%);
+    transition: transform 380ms cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: -1;
+  }
+  .btn-hire:hover {
+    color: var(--color-primary-foreground);
+    transform: translateY(-2px);
+    box-shadow:
+      0 10px 30px color-mix(in srgb, var(--color-primary) 35%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+  .btn-hire:hover::before {
+    transform: translateX(0);
+  }
+  .btn-hire:active {
+    transform: translateY(-1px);
+    transition-duration: 80ms;
+  }
+  .btn-hire:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-background),
+      0 0 0 4px var(--color-primary);
+  }
+  .btn-hire .cta-arrow {
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-hire:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Resume — same outlined sweep-fill effect as Hire Me, with bouncing download icon */
+  .btn-resume {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1.5px solid var(--color-primary);
+    transition:
+      color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .btn-resume::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-primary);
+    transform: translateX(-101%);
+    transition: transform 380ms cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: -1;
+  }
+  .btn-resume:hover {
+    color: var(--color-primary-foreground);
+    transform: translateY(-2px);
+    box-shadow:
+      0 10px 30px color-mix(in srgb, var(--color-primary) 35%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--color-primary) 50%, transparent);
+  }
+  .btn-resume:hover::before {
+    transform: translateX(0);
+  }
+  .btn-resume:active {
+    transform: translateY(-1px);
+    transition-duration: 80ms;
+  }
+  .btn-resume:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-background),
+      0 0 0 4px var(--color-primary);
+  }
+  .btn-resume .download-icon {
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-resume:hover .download-icon {
+    animation: download-bob 900ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  @keyframes download-bob {
+    0%, 100% { transform: translateY(0); }
+    35%      { transform: translateY(3px); }
+    70%      { transform: translateY(-1px); }
+  }
+
+  /* Custom scrollbar — narrow, primary-tinted */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-primary) 60%, transparent) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+    border-radius: 999px;
+    border: 2px solid var(--color-background);
+    transition: background 200ms ease;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+  }
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Project chip buttons — refined modern hover (no bounce; tint, sheen, icon nudge) */
+  .chip-btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      color 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 280ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .chip-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    opacity: 0;
+    transition: opacity 320ms cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .chip-btn:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 70%, transparent) !important;
+    color: var(--color-primary) !important;
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--color-primary) 12%, transparent),
+      0 1px 0 color-mix(in srgb, var(--color-primary) 30%, transparent) inset;
+  }
+  .chip-btn:hover::after {
+    opacity: 1;
+  }
+  .chip-btn:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
+  .chip-btn svg {
+    transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .chip-btn:hover svg {
+    transform: translate(2px, -2px);
+  }
+  .chip-btn:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-background),
+      0 0 0 4px var(--color-primary);
+  }
+
+  /* Primary filled chip — sheen + glow ring, no lift */
+  .chip-btn-primary {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1),
+      filter 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .chip-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      color-mix(in srgb, white 35%, transparent) 50%,
+      transparent 100%
+    );
+    transform: translateX(-120%);
+    transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .chip-btn-primary:hover {
+    filter: brightness(1.06);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-primary) 90%, white),
+      0 0 0 5px color-mix(in srgb, var(--color-primary) 15%, transparent),
+      0 6px 18px color-mix(in srgb, var(--color-primary) 35%, transparent);
+  }
+  .chip-btn-primary:hover::before {
+    transform: translateX(120%);
+  }
+  .chip-btn-primary:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
+  .chip-btn-primary svg {
+    transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .chip-btn-primary:hover svg {
+    transform: translate(2px, -2px);
+  }
+  .chip-btn-primary:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-background),
+      0 0 0 4px var(--color-primary);
+  }
+
+  /* Modal close — restrained color/ring shift with subtle rotate */
+  .modal-close {
+    transition:
+      background-color 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      color 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .modal-close:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 80%, transparent) !important;
+    color: var(--color-primary) !important;
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--color-primary) 14%, transparent);
+    transform: rotate(90deg);
+  }
+  .modal-close:active {
+    transform: rotate(90deg) scale(0.92);
+    transition-duration: 80ms;
+  }
+}
