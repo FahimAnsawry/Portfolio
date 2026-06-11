@@ -2,8 +2,7 @@ import { motion } from 'framer-motion';
 import { LuArrowDownToLine } from 'react-icons/lu';
 import { useState, useEffect } from 'react';
 
-const roles = ["Fullstack Developer", "MERN Stack Developer"];
-
+const roles = ["Frontend Developer", "MERN Stack Developer"];
 export default function Hero() {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");

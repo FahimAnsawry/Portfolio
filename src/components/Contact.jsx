@@ -55,7 +55,7 @@ export default function Contact() {
             >
               <h4 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>Get in touch</h4>
               <p className="mb-6 text-lg" style={{ color: 'var(--color-muted-foreground)' }}>
-                Open to fullstack work — freelance, contract, or full-time. Drop a message and I'll get back to you within a day or two.
+                Open to MERN stack work — freelance, contract, or full-time. Drop a message and I'll get back to you within a day or two.
               </p>
               
               <div className="flex flex-col gap-4">
@@ -135,7 +135,7 @@ export default function Contact() {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="name" className="text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>Name</label>
-                  <input type="text" id="name" name="from_name" required placeholder="Fahim Ansawri"
+                  <input type="text" id="name" name="from_name" required placeholder="Fahim Ansary"
                     className="px-4 py-3 rounded-xl border focus:outline-none transition-shadow"
                     style={{ ...inputStyle, outline: 'none' }}
                     onFocus={e => e.target.style.boxShadow = `0 0 0 2px var(--color-primary)`}
