@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { FiCheckCircle } from 'react-icons/fi';
 
 const highlights = [
-  'React & Next.js on the frontend',
-  'Node, Express & MongoDB on the backend',
-  'REST APIs, auth, and database design',
-  'Ships features end-to-end, not just the UI',
+  'React and Next.js for building frontends',
+  'Node with Express and MongoDB on the backend',
+  'REST APIs and authentication systems',
+  'Complete features from start to finish',
 ];
 
 export default function About() {
@@ -25,13 +25,13 @@ export default function About() {
               About Me
             </p>
             <h2 className="text-4xl md:text-4xl font-bold mb-6 leading-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
-              I build the whole thing — UI to database.
+              I build the whole thing from UI to database
             </h2>
             <p className="mb-4 text-lg leading-relaxed tracking-tight" style={{ color: 'var(--color-muted-foreground)' }}>
-              I'm a fullstack developer. I work mostly with React, Next.js, Node, Express, and MongoDB. I care about the parts most people skip — readable code, sensible APIs, and not breaking things in production.
+              I'm a MERN stack developer who works with MongoDB, Express, React, and Node.js to build web applications. I focus on writing clean code, designing good APIs, and making sure things work smoothly in production
             </p>
             <p className="text-lg leading-relaxed tracking-tight"  style={{ color: 'var(--color-muted-foreground)' }}>
-              Dashboards, auth flows, REST APIs, the boring CRUD that holds an app together — I've built enough of these that I know where the sharp edges are. If it runs in a browser and talks to a database, I can ship it.
+              I have built dashboards, authentication systems, REST APIs, and the everyday features that keep applications running. If it needs a frontend and a database working together, I can build it
             </p>
           </motion.div>
 
