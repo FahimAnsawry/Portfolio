@@ -1,10 +1,12 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
 import Home from './pages/Home'
-import AboutPage from './pages/AboutPage'
 import ProjectsPage from './pages/ProjectsPage'
+
+const AboutPage = lazy(() => import('./pages/AboutPage'))
 
 function App() {
   return (
@@ -12,12 +14,14 @@ function App() {
       <ScrollToTop />
       <Navbar />
       <main className="flex-1 w-full">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </div>

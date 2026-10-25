@@ -1,36 +1,54 @@
-import { motion } from 'framer-motion'
-import { FiMonitor, FiServer, FiTool, FiShield } from 'react-icons/fi'
+import { FiCode, FiMonitor, FiServer, FiTool, FiShield } from 'react-icons/fi'
 import { VscVscode } from 'react-icons/vsc'
 import {
   SiNextdotjs, SiReact, SiJavascript, SiTailwindcss, SiHtml5, SiRedux, SiReactquery, SiFirebase,
-  SiNodedotjs, SiExpress, SiMongodb,
+  SiNodedotjs, SiExpress, SiMongodb, SiPostgresql, SiPrisma,
+  SiPython, SiFastapi, SiSqlalchemy, SiLaravel, SiSocketdotio, SiModelcontextprotocol,
   SiOpenai, SiClaude, SiPostman,
 } from 'react-icons/si'
 import AntigravityIcon from './icons/AntigravityIcon'
+import TanstackIcon from './icons/TanstackIcon'
+import AccentLine from './AccentLine'
 
+// Monochrome marks follow the foreground; brand colors are toned per theme by .brand-icon
 const groups = [
+  {
+    name: 'Languages',
+    icon: FiCode,
+    items: [
+      { name: 'HTML / CSS', icon: SiHtml5,      color: '#e34f26' },
+      { name: 'JavaScript', icon: SiJavascript, color: '#f7df1e' },
+      { name: 'Python',     icon: SiPython,     color: '#3776ab' },
+      { name: 'SQL',        icon: SiPostgresql, color: '#4169e1' },
+    ],
+  },
   {
     name: 'Frontend',
     icon: FiMonitor,
     items: [
-      { name: 'HTML / CSS',      icon: SiHtml5,       color: '#e34f26' },
-      { name: 'Tailwind CSS',    icon: SiTailwindcss, color: '#38bdf8' },
-      { name: 'JavaScript',      icon: SiJavascript,  color: '#f7df1e' },
       { name: 'React.js',        icon: SiReact,       color: '#61dafb' },
-      { name: 'Next.js',         icon: SiNextdotjs,   color: '#ffffff' },
-      { name: 'Firebase Auth',   icon: SiFirebase,    color: '#ffca28' },
+      { name: 'Next.js',         icon: SiNextdotjs,   color: 'var(--color-foreground)' },
+      { name: 'Tailwind CSS',    icon: SiTailwindcss, color: '#38bdf8' },
       { name: 'Redux Toolkit',   icon: SiRedux,       color: '#764abc' },
       { name: 'TanStack Query',  icon: SiReactquery,  color: '#ff4154' },
+      { name: 'TanStack Router', icon: TanstackIcon,  color: '#ff4154' },
+      { name: 'Firebase Auth',   icon: SiFirebase,    color: '#ffca28' },
     ],
   },
   {
     name: 'Backend',
     icon: FiServer,
     items: [
-      { name: 'Node.js',    icon: SiNodedotjs, color: '#339933' },
-      { name: 'Express.js', icon: SiExpress,   color: '#ffffff' },
-      { name: 'MongoDB',    icon: SiMongodb,   color: '#47A248' },
-      { name: 'Zod',        icon: FiShield,    color: '#3068b7' },
+      { name: 'Node.js',    icon: SiNodedotjs,            color: '#339933' },
+      { name: 'Express.js', icon: SiExpress,              color: 'var(--color-foreground)' },
+      { name: 'MongoDB',    icon: SiMongodb,              color: '#47A248' },
+      { name: 'Prisma',     icon: SiPrisma,               color: 'var(--color-foreground)' },
+      { name: 'FastAPI',    icon: SiFastapi,              color: '#009688' },
+      { name: 'SQLAlchemy', icon: SiSqlalchemy,           color: '#d71f00' },
+      { name: 'Laravel',    icon: SiLaravel,              color: '#ff2d20' },
+      { name: 'Socket.io',  icon: SiSocketdotio,          color: 'var(--color-foreground)' },
+      { name: 'MCP',        icon: SiModelcontextprotocol, color: 'var(--color-foreground)' },
+      { name: 'Zod',        icon: FiShield,               color: '#3068b7' },
     ],
   },
   {
@@ -46,90 +64,72 @@ const groups = [
   },
 ]
 
-function SkillCard({ skill, delay }) {
+function SkillItem({ skill }) {
   const Icon = skill.icon
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.35, delay }}
-      className="rounded-2xl p-5 border bg-white dark:bg-[var(--color-card)] border-gray-200 dark:border-[var(--color-border)] flex flex-col items-center gap-3 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_40px_-10px_rgba(62,230,196,0.25)]"
-    >
-      <div
-        className="w-14 h-14 rounded-xl flex items-center justify-center"
-        style={{ backgroundColor: `color-mix(in srgb, ${skill.color} 14%, transparent)` }}
-      >
-        <Icon size={30} color={skill.color} />
+    <li className="flex items-center gap-3" style={{ '--brand': skill.color }}>
+      <div className="brand-pad w-9 h-9 shrink-0 rounded-lg flex items-center justify-center" aria-hidden="true">
+        <Icon size={18} className="brand-icon" />
       </div>
-      <div className="text-sm font-semibold text-center" style={{ color: 'var(--color-foreground)' }}>
+      <span className="font-mono text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>
         {skill.name}
+      </span>
+    </li>
+  )
+}
+
+function CategoryCard({ group }) {
+  const GroupIcon = group.icon
+  return (
+    <div
+      className="glow-card-sm rounded-2xl p-5 border flex flex-col"
+      style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
+    >
+      <div className="flex items-center gap-3 pb-4 mb-4 border-b" style={{ borderColor: 'var(--color-border)' }}>
+        <div
+          className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+          aria-hidden="true"
+          style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 14%, transparent)' }}
+        >
+          <GroupIcon size={17} color="var(--color-primary)" />
+        </div>
+        <h3
+          className="text-lg font-bold uppercase tracking-wider"
+          style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}
+        >
+          {group.name}
+        </h3>
       </div>
-    </motion.div>
+
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
+        {group.items.map((skill) => (
+          <SkillItem key={skill.name} skill={skill} />
+        ))}
+      </ul>
+    </div>
   )
 }
 
 export default function SkillsCards() {
   return (
     <section className="py-20 relative" style={{ backgroundColor: 'var(--color-background)' }}>
-      <div className="container mx-auto px-5 max-w-3xl">
+      <div className="container mx-auto px-5 max-w-5xl">
 
         <div className="text-center mb-10">
-          <p className="text-sm font-bold tracking-[0.2em] uppercase mb-3" style={{ color: 'var(--color-primary)' }}>
-            Skills
-          </p>
-          <h3 className="text-3xl md:text-4xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
+          <h2 className="text-3xl md:text-4xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
             My skills
-          </h3>
+          </h2>
         </div>
 
-
-        <div className="flex flex-col gap-14">
-          {groups.map((group) => {
-            const GroupIcon = group.icon
-            return (
-              <div key={group.name}>
-                <div className="flex items-center gap-3 mb-6">
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 14%, transparent)' }}
-                  >
-                    <GroupIcon size={17} color="var(--color-primary)" />
-                  </div>
-                  <h4
-                    className="text-xl font-bold uppercase tracking-wider"
-                    style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}
-                  >
-                    {group.name}
-                  </h4>
-                  <div
-                    className="flex-1 h-[1px]"
-                    style={{
-                      background: 'linear-gradient(90deg, var(--color-border) 0%, transparent 100%)',
-                    }}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  {group.items.map((skill, i) => (
-                    <SkillCard key={skill.name} skill={skill} delay={i * 0.04} />
-                  ))}
-                </div>
-              </div>
-            )
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {groups.map((group) => (
+            <CategoryCard key={group.name} group={group} />
+          ))}
         </div>
 
       </div>
 
-      {/* Bottom accent line */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[1px]"
-        style={{
-          background: 'linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)',
-          opacity: 0.4,
-        }}
-      />
+      <AccentLine />
     </section>
   )
 }

@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { FiCheckCircle } from 'react-icons/fi';
+import AccentLine from './AccentLine';
 
 const highlights = [
   'React and Next.js for building frontends',
@@ -10,75 +11,56 @@ const highlights = [
 
 export default function About() {
   return (
-    <section id="about" className="relative px-5   py-24" style={{ backgroundColor: 'var(--color-background)' }}>
-      <div className="container mx-auto  max-w-5xl">
+    <section id="about" className="relative px-5 py-24" style={{ backgroundColor: 'var(--color-background)' }}>
+      <div className="container mx-auto max-w-5xl">
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-stretch">
-          
+
           {/* Left: Text content */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-sm font-bold tracking-[0.2em] uppercase mb-4" style={{ color: 'var(--color-primary)' }}>
-              About Me
-            </p>
-            <h2 className="text-4xl md:text-4xl font-bold mb-6 leading-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
+          <div>
+            <h1 className="text-4xl font-bold mb-6 leading-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
               I build the whole thing from UI to database
-            </h2>
-            <p className="mb-4 text-lg leading-relaxed tracking-tight" style={{ color: 'var(--color-muted-foreground)' }}>
-              I'm a MERN stack developer who works with MongoDB, Express, React, and Node.js to build web applications. I focus on writing clean code, designing good APIs, and making sure things work smoothly in production
+            </h1>
+            <p className="mb-4 text-lg leading-relaxed" style={{ color: 'var(--color-muted-foreground)' }}>
+              I'm a full-stack developer who builds web applications with React and Next.js on the front, and Node.js, FastAPI, or Laravel on the back — backed by MongoDB or SQL. I focus on writing clean code, designing good APIs, and making sure things work smoothly in production.
             </p>
-            <p className="text-lg leading-relaxed tracking-tight"  style={{ color: 'var(--color-muted-foreground)' }}>
-              I have built dashboards, authentication systems, REST APIs, and the everyday features that keep applications running. If it needs a frontend and a database working together, I can build it
+            <p className="text-lg leading-relaxed" style={{ color: 'var(--color-muted-foreground)' }}>
+              I have built dashboards, authentication systems, REST APIs, and the everyday features that keep applications running. If it needs a frontend and a database working together, I can build it.
             </p>
-          </motion.div>
+          </div>
 
           {/* Right: "Why work with me?" card */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="rounded-[2rem] p-10 md:p-12 relative group bg-white dark:bg-[var(--color-card)] border border-gray-200 dark:border-[var(--color-border)] shadow-[0_0_60px_-15px_rgba(62,230,196,0.08)] hover:shadow-[0_0_80px_-15px_rgba(62,230,196,0.25)] transition-all duration-500"
+          <div
+            className="glow-card rounded-[2rem] p-10 md:p-12 relative border"
+            style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
           >
-            <h3 className="text-2xl font-bold mb-10 text-gray-900 dark:text-white" style={{ fontFamily: 'var(--font-display)' }}>
+            <h2 className="text-2xl font-bold mb-10" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
               Why work with me?
-            </h3>
+            </h2>
             <ul className="flex flex-col gap-8">
               {highlights.map((item, i) => (
-                <motion.li
-                  key={item}
-                  initial={{ opacity: 0, x: 10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.15 + i * 0.07 }}
-                  className="flex items-center gap-5"
-                >
-                  <div 
+                <li key={item} className="flex items-center gap-5">
+                  {/* Checks tick in one by one; the text never waits on them */}
+                  <m.div
                     className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: 'rgba(62, 230, 196, 0.15)' }} /* Slight mint/teal ring */
+                    aria-hidden="true"
+                    style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 15%, transparent)' }}
+                    initial={{ scale: 0.4 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.1 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <FiCheckCircle size={18} style={{ color: 'var(--color-primary)' }} />
-                  </div>
-                  <span className="font-semibold text-[15px] md:text-base text-gray-700 dark:text-gray-200">{item}</span>
-                </motion.li>
+                  </m.div>
+                  <span className="font-semibold text-[15px] md:text-base" style={{ color: 'var(--color-foreground)' }}>{item}</span>
+                </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
 
         </div>
       </div>
 
-      {/* Accent gradient divider line at bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[1px]"
-        style={{
-          background: 'linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)',
-          opacity: 0.4,
-        }}
-      />
+      <AccentLine />
     </section>
   );
 }

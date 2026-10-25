@@ -1,13 +1,14 @@
 import antigravityIconSrc from '../../assets/antigravity-icon.png';
 
-export default function AntigravityIcon({ size = 24, ...rest }) {
+// Decorative: always rendered beside a visible "Antigravity" label
+export default function AntigravityIcon({ size = 24, style, ...rest }) {
   return (
     <img
       src={antigravityIconSrc}
       width={size}
       height={size}
-      alt="Antigravity"
-      style={{ objectFit: 'contain', display: 'inline-block' }}
+      alt=""
+      style={{ objectFit: 'contain', display: 'inline-block', ...style }}
       {...rest}
     />
   );

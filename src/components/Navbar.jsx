@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { FiSun, FiMoon } from 'react-icons/fi';
+import AccentLine from './AccentLine';
 
 const NAV_ITEMS = [
   { label: 'Home', to: '/' },
@@ -9,27 +10,65 @@ const NAV_ITEMS = [
   { label: 'Projects', to: '/projects' },
 ];
 
-export default function Navbar() {
+function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
+  const next = theme === 'dark' ? 'light' : 'dark';
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      className="icon-btn w-11 h-11 flex items-center justify-center rounded-full"
+      aria-label={`Switch to ${next} theme`}
+    >
+      {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
+    </button>
+  );
+}
+
+export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const headerRef = useRef(null);
+  const menuRef = useRef(null);
+  const menuButtonRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const linkColor = (isActive) =>
-    isActive ? 'var(--color-foreground)' : 'var(--color-muted-foreground)';
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    menuRef.current?.querySelector('a')?.focus();
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      setIsMobileMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    // A tap anywhere outside the header closes the menu
+    const onPointerDown = (e) => {
+      if (!headerRef.current?.contains(e.target)) setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <header
+      ref={headerRef}
       className="fixed top-0 left-0 right-0 z-50 w-full"
       style={{
         backgroundColor: 'var(--color-background)',
         transition: 'box-shadow 0.4s ease',
-        boxShadow: isScrolled ? '0 4px 30px rgba(0,0,0,0.3)' : 'none',
+        boxShadow: isScrolled ? 'var(--shadow-header)' : 'none',
       }}
     >
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
@@ -37,7 +76,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           to="/"
-          className="text-xl font-bold uppercase tracking-tighter z-50"
+          className="min-h-11 flex items-center text-xl font-bold uppercase tracking-tighter z-50"
           style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}
         >
           Fahim<span style={{ color: 'var(--color-primary)' }}>.</span>
@@ -45,62 +84,41 @@ export default function Navbar() {
 
         {/* Right side: Nav + Toggle + CTA */}
         <div className="hidden md:flex items-center gap-8">
-          <nav className="flex items-center gap-6 text-sm font-medium">
+          <nav aria-label="Main" className="flex items-center gap-6 text-sm font-medium">
             {NAV_ITEMS.map(({ label, to }) => (
               <NavLink
                 key={label}
                 to={to}
                 end={to === '/'}
-                className="uppercase tracking-wider transition-colors"
-                style={({ isActive }) => ({ color: linkColor(isActive) })}
-                onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-foreground)')}
-                onMouseLeave={e => {
-                  const active = e.currentTarget.getAttribute('aria-current') === 'page';
-                  e.currentTarget.style.color = linkColor(active);
-                }}
+                className="nav-link font-mono uppercase tracking-wider"
               >
                 {label}
               </NavLink>
             ))}
           </nav>
 
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full transition-colors"
-            style={{ color: 'var(--color-muted-foreground)' }}
-            aria-label="Toggle Theme"
-          >
-            {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
-          </button>
+          <ThemeToggle />
 
           <Link
             to="/#contact"
-            className="btn-hire px-5 py-2 text-sm font-semibold rounded-lg uppercase"
+            className="btn-hire px-5 py-2.5 text-sm font-semibold rounded-lg uppercase"
           >
             Hire Me
           </Link>
         </div>
 
         {/* Mobile controls */}
-        <div className="flex items-center gap-3 md:hidden z-50">
+        <div className="flex items-center gap-1 md:hidden z-50">
+          <ThemeToggle />
           <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full transition-colors"
-            style={{ color: 'var(--color-muted-foreground)' }}
-            aria-label="Toggle Theme"
-          >
-            {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
-          </button>
-          <button
+            ref={menuButtonRef}
+            type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
-            className="relative w-11 h-11 flex items-center justify-center rounded-full transition-colors focus:outline-none focus-visible:ring-2"
-            style={{
-              color: 'var(--color-foreground)',
-              '--tw-ring-color': 'var(--color-primary)',
-            }}
+            className="icon-btn relative w-11 h-11 flex items-center justify-center rounded-full"
+            style={{ color: 'var(--color-foreground)' }}
           >
             <span className="relative block w-6 h-[14px]" aria-hidden="true">
               <span
@@ -119,7 +137,7 @@ export default function Navbar() {
                 style={{
                   width: '60%',
                   backgroundColor: 'currentColor',
-                  transition: 'opacity 200ms ease, width 250ms ease',
+                  transition: 'opacity 200ms ease',
                   opacity: isMobileMenuOpen ? 0 : 1,
                 }}
               />
@@ -139,50 +157,37 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Purple gradient glow line at bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[1px]"
-        style={{
-          background: 'linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)',
-          opacity: 0.5,
-        }}
-      />
+      <AccentLine opacity={0.5} />
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div
+        <nav
+          ref={menuRef}
           id="mobile-menu"
-          className="md:hidden absolute top-16 left-0 w-full py-6 px-6 flex flex-col gap-4"
-          style={{ backgroundColor: 'var(--color-background)' }}
+          aria-label="Main"
+          className="md:hidden absolute top-16 left-0 w-full py-4 px-6 flex flex-col gap-1"
+          style={{ backgroundColor: 'var(--color-background)', boxShadow: 'var(--shadow-header)' }}
         >
           {NAV_ITEMS.map(({ label, to }) => (
             <NavLink
               key={label}
               to={to}
               end={to === '/'}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-lg font-medium uppercase tracking-wider transition-colors"
-              style={({ isActive }) => ({ color: linkColor(isActive) })}
+              onClick={closeMenu}
+              className="nav-link min-h-11 flex items-center font-mono text-lg font-medium uppercase tracking-wider"
             >
               {label}
             </NavLink>
           ))}
           <Link
             to="/#contact"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="btn-hire mt-2 flex justify-center px-4 py-3 text-sm font-semibold rounded-lg text-center"
+            onClick={closeMenu}
+            className="btn-hire mt-3 flex justify-center px-4 py-3 text-sm font-semibold rounded-lg text-center uppercase"
           >
             Hire Me
           </Link>
-          {/* Purple glow line at bottom of mobile menu */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-[1px]"
-            style={{
-              background: 'linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%)',
-              opacity: 0.5,
-            }}
-          />
-        </div>
+          <AccentLine opacity={0.5} />
+        </nav>
       )}
     </header>
   );

@@ -1,17 +1,17 @@
 import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-import { FiMail, FiMapPin, FiGithub, FiLinkedin, FiTwitter } from 'react-icons/fi';
-
-const inputStyle = {
-  backgroundColor: 'var(--color-secondary)',
-  borderColor: 'var(--color-border)',
-  color: 'var(--color-foreground)',
-};
+import { FiMail, FiMapPin } from 'react-icons/fi';
+import { SOCIAL_LINKS, EMAIL } from './socialLinks';
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+const IS_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
+
+const STATUS_COLOR = {
+  success: 'var(--color-primary)',
+  error: 'var(--color-danger)',
+};
 
 export default function Contact() {
   const formRef = useRef(null);
@@ -20,162 +20,139 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (status.state === 'sending') return;
-    setStatus({ state: 'sending', message: '' });
+    if (!IS_CONFIGURED) {
+      setStatus({ state: 'error', message: `The form isn't connected right now. Email me directly at ${EMAIL}.` });
+      return;
+    }
+    setStatus({ state: 'sending', message: 'Sending your message…' });
     try {
       await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY });
-      setStatus({ state: 'success', message: "Thanks! Your message is on its way." });
+      setStatus({ state: 'success', message: "Thanks! Your message is on its way. I'll reply within a day or two." });
       formRef.current.reset();
-      setTimeout(() => setStatus({ state: 'idle', message: '' }), 3000);
-    } catch (err) {
-      setStatus({ state: 'error', message: err?.text || 'Something went wrong. Please try again.' });
-      setTimeout(() => setStatus({ state: 'idle', message: '' }), 3000);
+    } catch {
+      setStatus({ state: 'error', message: `Your message didn't send. Check your connection and try again, or email me at ${EMAIL}.` });
     }
   };
+
+  // Messages stay until the visitor edits the form again, so nobody misses them
+  const handleInput = () => {
+    if (status.state === 'success' || status.state === 'error') {
+      setStatus({ state: 'idle', message: '' });
+    }
+  };
+
   return (
     <section id="contact" className="py-20 relative" style={{ backgroundColor: 'var(--color-background)' }}>
       <div className="container mx-auto px-4 max-w-5xl">
-        
+
         <div className="text-center mb-16">
-          <p className="text-lg font-bold tracking-widest uppercase mb-3" style={{ color: 'var(--color-primary)' }}>
-            Contact
-          </p>
-          <h3 className="text-5xl md:text-4xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
+          <h2 className="text-3xl md:text-4xl font-bold" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>
             Let's work together
-          </h3>
+          </h2>
         </div>
 
-        <div className="grid md:grid-cols-5 gap-12">
-          
-          <div className="md:col-span-2 flex flex-col gap-8">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h4 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>Get in touch</h4>
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
+
+          <div className="md:col-span-2 flex flex-col gap-8 min-w-0">
+            <div>
+              <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>Get in touch</h3>
               <p className="mb-6 text-lg" style={{ color: 'var(--color-muted-foreground)' }}>
-                Open to MERN stack work — freelance, contract, or full-time. Drop a message and I'll get back to you within a day or two.
+                Open to full-stack work — freelance, contract, or full-time. Drop a message and I'll get back to you within a day or two.
               </p>
-              
+
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center border" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)', color: 'var(--color-primary)' }}>
-                    <FiMail size={20} />
+                  <div className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center border" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)', color: 'var(--color-primary)' }}>
+                    <FiMail size={20} aria-hidden="true" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-medium" style={{ color: 'var(--color-muted-foreground)' }}>Email</p>
-                    <a href="mailto:fahimansawri550@gmail.com" className="font-medium transition-colors" style={{ color: 'var(--color-foreground)' }}>fahimansawri550@gmail.com</a>
+                    <a
+                      href={`mailto:${EMAIL}`}
+                      className="font-medium [overflow-wrap:anywhere] transition-colors hover:text-[var(--color-primary)]"
+                      style={{ color: 'var(--color-foreground)' }}
+                    >
+                      {EMAIL}
+                    </a>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center border" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)', color: 'var(--color-primary)' }}>
-                    <FiMapPin size={20} />
+                  <div className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center border" style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)', color: 'var(--color-primary)' }}>
+                    <FiMapPin size={20} aria-hidden="true" />
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-medium" style={{ color: 'var(--color-muted-foreground)' }}>Location</p>
                     <p className="font-medium" style={{ color: 'var(--color-foreground)' }}>Dhaka, Bangladesh</p>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <h4 className="text-xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>Follow me</h4>
+            <div>
+              <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'var(--font-display)', color: 'var(--color-foreground)' }}>Follow me</h3>
               <div className="flex gap-4">
-                {[
-                  { Icon: FiGithub,   bg: '#181717', label: 'GitHub' },
-                  { Icon: FiLinkedin, bg: '#0A66C2', label: 'LinkedIn' },
-                  { Icon: FiTwitter,  bg: '#1DA1F2', label: 'Twitter' },
-                ].map(({ Icon, bg, label }) => (
+                {SOCIAL_LINKS.map(({ Icon, href, label }) => (
                   <a
                     key={label}
-                    href="#"
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-10 h-10 rounded-lg flex items-center justify-center border transition-all duration-300"
-                    style={{
-                      backgroundColor: 'var(--color-card)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-muted-foreground)',
-                    }}
-                    onMouseEnter={e => {
-                      e.currentTarget.style.backgroundColor = bg;
-                      e.currentTarget.style.borderColor = bg;
-                      e.currentTarget.style.color = '#ffffff';
-                      e.currentTarget.style.transform = 'translateY(-4px)';
-                    }}
-                    onMouseLeave={e => {
-                      e.currentTarget.style.backgroundColor = 'var(--color-card)';
-                      e.currentTarget.style.borderColor = 'var(--color-border)';
-                      e.currentTarget.style.color = 'var(--color-muted-foreground)';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
+                    className="social-link w-11 h-11 rounded-lg flex items-center justify-center"
                   >
-                    <Icon size={20} />
+                    <Icon size={20} aria-hidden="true" />
                   </a>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </div>
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="md:col-span-3 rounded-2xl p-8 border"
+          <div
+            className="md:col-span-3 rounded-2xl p-6 sm:p-8 border"
             style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
           >
-            <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form ref={formRef} onSubmit={handleSubmit} onInput={handleInput} aria-describedby="contact-form-note" className="flex flex-col gap-6">
+              <p id="contact-form-note" className="text-sm -mb-2" style={{ color: 'var(--color-muted-foreground)' }}>
+                All fields are required.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col gap-2">
                   <label htmlFor="name" className="text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>Name</label>
-                  <input type="text" id="name" name="from_name" required placeholder="Fahim Ansary"
-                    className="px-4 py-3 rounded-xl border focus:outline-none transition-shadow"
-                    style={{ ...inputStyle, outline: 'none' }}
-                    onFocus={e => e.target.style.boxShadow = `0 0 0 2px var(--color-primary)`}
-                    onBlur={e => e.target.style.boxShadow = ''}
+                  <input type="text" id="name" name="from_name" required autoComplete="name" placeholder="Your name"
+                    className="field w-full min-w-0 px-4 py-3 rounded-xl"
                   />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label htmlFor="email" className="text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>Email</label>
-                  <input type="email" id="email" name="from_email" required placeholder="fahim@example.com"
-                    className="px-4 py-3 rounded-xl border focus:outline-none transition-shadow"
-                    style={inputStyle}
-                    onFocus={e => e.target.style.boxShadow = `0 0 0 2px var(--color-primary)`}
-                    onBlur={e => e.target.style.boxShadow = ''}
+                  <input type="email" id="email" name="from_email" required autoComplete="email" placeholder="you@company.com"
+                    className="field w-full min-w-0 px-4 py-3 rounded-xl"
                   />
                 </div>
               </div>
               <div className="flex flex-col gap-2">
                 <label htmlFor="message" className="text-sm font-medium" style={{ color: 'var(--color-foreground)' }}>Message</label>
-                <textarea id="message" name="message" required rows={5} placeholder="Tell me about your project..."
-                  className="px-4 py-3 rounded-xl border focus:outline-none resize-none transition-shadow"
-                  style={inputStyle}
-                  onFocus={e => e.target.style.boxShadow = `0 0 0 2px var(--color-primary)`}
-                  onBlur={e => e.target.style.boxShadow = ''}
+                <textarea id="message" name="message" required rows={5} placeholder="Tell me about the role or project..."
+                  className="field w-full min-w-0 px-4 py-3 rounded-xl resize-none"
                 ></textarea>
               </div>
-              <button type="submit" disabled={status.state === 'sending'}
-                className="btn-hire w-full py-4 rounded-xl font-bold mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {status.state === 'sending' ? 'Sending…' : 'Send Message'}
-              </button>
-              {status.message && (
-                <p
-                  className="text-sm text-center"
-                  style={{ color: status.state === 'success' ? 'var(--color-primary)' : '#ef4444' }}
+              <div className="mt-2">
+                <button type="submit" disabled={status.state === 'sending'}
+                  className="btn-hire w-full py-4 rounded-xl font-bold disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {status.message}
+                  {status.state === 'sending' ? 'Sending…' : 'Send Message'}
+                </button>
+                {/* Always mounted so screen readers announce changes */}
+                <p
+                  role="status"
+                  aria-live="polite"
+                  className="text-sm text-center [&:not(:empty)]:mt-3"
+                  style={{ color: STATUS_COLOR[status.state] ?? 'var(--color-muted-foreground)' }}
+                >
+                  {status.state === 'sending' ? <span className="sr-only">{status.message}</span> : status.message}
                 </p>
-              )}
+              </div>
             </form>
-          </motion.div>
+          </div>
 
         </div>
       </div>

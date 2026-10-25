@@ -5,6 +5,7 @@ import Contact from '../components/Contact'
 export default function Home() {
   return (
     <>
+      <title>Fahim Ansary — Full-Stack Developer</title>
       <Hero />
       <Projects />
       <Contact />

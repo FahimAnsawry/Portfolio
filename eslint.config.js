@@ -23,7 +23,8 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]|motion' }],
+      // Core no-unused-vars doesn't see JSX usage, so allow component-style names (and motion's `m`)
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]|^motion$|^m$', argsIgnorePattern: '^[A-Z_]' }],
     },
   },
 ])
