@@ -1,4 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/resume.pdf", "destination": "/Md_Thasan_Ansary_Fahim_Resume.pdf", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/Md_Thasan_Ansary_Fahim_Resume.pdf",
+      "headers": [
+        { "key": "Content-Disposition", "value": "attachment; filename=\"Md_Thasan_Ansary_Fahim_Resume.pdf\"" }
+      ]
+    }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
