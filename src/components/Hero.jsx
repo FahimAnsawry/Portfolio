@@ -21,6 +21,7 @@ export default function Hero() {
     let step;
 
     if (!isDeleting && currentText === currentRole) {
+      if (roles.length === 1) return;
       delay = 2000;
       step = () => setIsDeleting(true);
     } else if (isDeleting && currentText === "") {

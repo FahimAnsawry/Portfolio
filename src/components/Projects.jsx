@@ -291,7 +291,7 @@ export default function Projects({ headingAs = 'h2' }) {
           className="max-w-xl mx-auto text-center text-base md:text-lg leading-relaxed mb-16"
           style={{ color: 'var(--color-muted-foreground)' }}
         >
-          Stuff I've built. More write-ups are on the way.
+          Full-stack web apps I've designed and built from UI to database.
         </p>
 
         {/* Project cards */}

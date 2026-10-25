@@ -3,9 +3,9 @@ import { FiCheckCircle } from 'react-icons/fi';
 import AccentLine from './AccentLine';
 
 const highlights = [
-  'React and Next.js for building frontends',
-  'Node with Express and MongoDB on the backend',
-  'REST APIs and authentication systems',
+  'React, Next.js, and TypeScript on the frontend',
+  'Node.js, Express, PostgreSQL, and MongoDB on the backend',
+  'REST APIs, real-time sync, and authentication',
   'Complete features from start to finish',
 ];
 
@@ -21,7 +21,7 @@ export default function About() {
               I build the whole thing from UI to database
             </h1>
             <p className="mb-4 text-lg leading-relaxed" style={{ color: 'var(--color-muted-foreground)' }}>
-              I'm a full-stack developer who builds web applications with React and Next.js on the front, and Node.js, FastAPI, or Laravel on the back — backed by MongoDB or SQL. I focus on writing clean code, designing good APIs, and making sure things work smoothly in production.
+              I'm a full-stack developer who builds web applications with React, Next.js, and TypeScript on the front, and Node.js, FastAPI, or Laravel on the back — backed by PostgreSQL or MongoDB. I focus on writing clean code, designing good APIs, and making sure things work smoothly in production.
             </p>
             <p className="text-lg leading-relaxed" style={{ color: 'var(--color-muted-foreground)' }}>
               I have built dashboards, authentication systems, REST APIs, and the everyday features that keep applications running. If it needs a frontend and a database working together, I can build it.

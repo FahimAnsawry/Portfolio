@@ -1,8 +1,8 @@
-import { FiCode, FiMonitor, FiServer, FiTool, FiShield } from 'react-icons/fi'
+import { FiCode, FiMonitor, FiServer, FiTool } from 'react-icons/fi'
 import { VscVscode } from 'react-icons/vsc'
 import {
-  SiNextdotjs, SiReact, SiJavascript, SiTailwindcss, SiHtml5, SiRedux, SiReactquery, SiFirebase,
-  SiNodedotjs, SiExpress, SiMongodb, SiPostgresql, SiPrisma,
+  SiNextdotjs, SiReact, SiJavascript, SiTypescript, SiPhp, SiTailwindcss, SiHtml5, SiRedux, SiReactquery, SiFirebase,
+  SiNodedotjs, SiExpress, SiMongodb, SiPostgresql, SiPrisma, SiZod, SiBetterauth,
   SiPython, SiFastapi, SiSqlalchemy, SiLaravel, SiSocketdotio, SiModelcontextprotocol,
   SiOpenai, SiClaude, SiPostman,
 } from 'react-icons/si'
@@ -16,10 +16,12 @@ const groups = [
     name: 'Languages',
     icon: FiCode,
     items: [
-      { name: 'HTML / CSS', icon: SiHtml5,      color: '#e34f26' },
       { name: 'JavaScript', icon: SiJavascript, color: '#f7df1e' },
+      { name: 'TypeScript', icon: SiTypescript, color: '#3178c6' },
       { name: 'Python',     icon: SiPython,     color: '#3776ab' },
+      { name: 'PHP',        icon: SiPhp,        color: '#777bb4' },
       { name: 'SQL',        icon: SiPostgresql, color: '#4169e1' },
+      { name: 'HTML / CSS', icon: SiHtml5,      color: '#e34f26' },
     ],
   },
   {
@@ -39,27 +41,29 @@ const groups = [
     name: 'Backend',
     icon: FiServer,
     items: [
-      { name: 'Node.js',    icon: SiNodedotjs,            color: '#339933' },
-      { name: 'Express.js', icon: SiExpress,              color: 'var(--color-foreground)' },
-      { name: 'MongoDB',    icon: SiMongodb,              color: '#47A248' },
-      { name: 'Prisma',     icon: SiPrisma,               color: 'var(--color-foreground)' },
-      { name: 'FastAPI',    icon: SiFastapi,              color: '#009688' },
-      { name: 'SQLAlchemy', icon: SiSqlalchemy,           color: '#d71f00' },
-      { name: 'Laravel',    icon: SiLaravel,              color: '#ff2d20' },
-      { name: 'Socket.io',  icon: SiSocketdotio,          color: 'var(--color-foreground)' },
-      { name: 'MCP',        icon: SiModelcontextprotocol, color: 'var(--color-foreground)' },
-      { name: 'Zod',        icon: FiShield,               color: '#3068b7' },
+      { name: 'Node.js',     icon: SiNodedotjs,            color: '#339933' },
+      { name: 'Express.js',  icon: SiExpress,              color: 'var(--color-foreground)' },
+      { name: 'PostgreSQL',  icon: SiPostgresql,           color: '#4169e1' },
+      { name: 'Prisma',      icon: SiPrisma,               color: 'var(--color-foreground)' },
+      { name: 'MongoDB',     icon: SiMongodb,              color: '#47A248' },
+      { name: 'Laravel',     icon: SiLaravel,              color: '#ff2d20' },
+      { name: 'FastAPI',     icon: SiFastapi,              color: '#009688' },
+      { name: 'SQLAlchemy',  icon: SiSqlalchemy,           color: '#d71f00' },
+      { name: 'Socket.IO',   icon: SiSocketdotio,          color: 'var(--color-foreground)' },
+      { name: 'MCP',         icon: SiModelcontextprotocol, color: 'var(--color-foreground)' },
+      { name: 'Better Auth', icon: SiBetterauth,           color: 'var(--color-foreground)' },
+      { name: 'Zod',         icon: SiZod,                  color: '#3068b7' },
     ],
   },
   {
     name: 'Tools',
     icon: FiTool,
     items: [
-      { name: 'VS Code',     icon: VscVscode,      color: '#007acc' },
+      { name: 'VS Code',     icon: VscVscode,       color: '#007acc' },
       { name: 'Antigravity', icon: AntigravityIcon, color: '#7C5CFF' },
-      { name: 'Codex',       icon: SiOpenai,       color: '#10a37f' },
-      { name: 'Claude Code', icon: SiClaude,       color: '#cc785c' },
-      { name: 'Postman',     icon: SiPostman,      color: '#ff6c37' },
+      { name: 'Codex',       icon: SiOpenai,        color: '#10a37f' },
+      { name: 'Claude Code', icon: SiClaude,        color: '#cc785c' },
+      { name: 'Postman',     icon: SiPostman,       color: '#ff6c37' },
     ],
   },
 ]
