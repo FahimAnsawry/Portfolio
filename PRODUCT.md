@@ -33,7 +33,7 @@ Visitors arrive from a resume, LinkedIn, or a recruiter message, usually on a la
 - Light and dark themes, controlled by CSS variables.
 - Stack: Vite, React 19, Tailwind CSS v4 (configured in `src/index.css`), Framer Motion, React Router v6, react-icons.
 - Contact uses EmailJS, which requires client-side keys in `.env`.
-- Resume is served from `public/resume.pdf`.
+- Resume is served from `public/Md_Thasan_Ansary_Fahim_Resume.pdf`.
 - Project data is inline in `src/components/Projects.jsx`.
 
 Terminology: "Full-stack developer" is the primary self-description. The role shown in the hero is "Full-Stack Developer". Do not use "MERN stack".
@@ -46,7 +46,7 @@ Terminology: "Full-stack developer" is the primary self-description. The role sh
 
 ## Evidence on Hand
 
-- `public/resume.pdf`: downloadable resume.
+- `public/Md_Thasan_Ansary_Fahim_Resume.pdf`: downloadable resume.
 - AI Bridge: local proxy and real-time dashboard for AI coding tools. Live at https://ai-bridge-zag2.onrender.com, source at https://github.com/FahimAnsawry/Ai-Bridge. Screenshot at `public/projects/ai-bridge.png`.
 - Project highlights and descriptions in `src/components/Projects.jsx`.
 

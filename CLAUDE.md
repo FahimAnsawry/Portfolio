@@ -35,4 +35,4 @@ No test suite is configured.
 
 **Custom icon**: `src/components/icons/AntigravityIcon.jsx` — acustom SVG component used in the Skills section.
 
-**Assets**: `src/assets/` for images imported into components; `public/` for files referencedby path (e.g. `/projects/ai-bridge.png`, `/resume.pdf`).
+**Assets**: `src/assets/` for images imported into components; `public/` for files referencedby path (e.g. `/projects/ai-bridge.png`, `/Md_Thasan_Ansary_Fahim_Resume.pdf`).

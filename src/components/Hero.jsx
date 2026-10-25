@@ -96,7 +96,7 @@ export default function Hero() {
         </p>
 
         <a
-          href="/resume.pdf"
+          href="/Md_Thasan_Ansary_Fahim_Resume.pdf"
           download
           className="btn-resume inline-flex items-center gap-2.5 px-8 py-3.5 uppercase rounded-xl font-semibold text-base"
         >
